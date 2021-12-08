@@ -1,77 +1,156 @@
-var config = { //create configuration for game
-    type: Phaser.CANVAS,
-    width: 1000, //size of window
-    height: 1000,
-    physics: {
-      default: 'arcade', //the physics engine the game will use
-      arcade: {
-        debug: false
+var BootScene = new Phaser.Class({
+
+  Extends: Phaser.Scene,
+
+  initialize:
+
+  function BootScene ()
+  {
+      Phaser.Scene.call(this, { key: 'BootScene' });
+  },
+
+  preload: function ()
+  {
+      // map tiles
+      this.load.image('tiles', 'assets/spritesheet.png');
+      
+      // map in json format
+      this.load.tilemapTiledJSON('map', 'assets/tileset.json');
+      
+      // our two characters
+      this.load.spritesheet('player', 'assets/RPG_assets.png', { frameWidth: 16, frameHeight: 16 });
+  },
+
+  create: function ()
+  {
+      // start the WorldScene
+      this.scene.start('WorldScene');
+  }
+});
+
+var WorldScene = new Phaser.Class({
+
+  Extends: Phaser.Scene,
+
+  initialize:
+
+  function WorldScene ()
+  {
+      Phaser.Scene.call(this, { key: 'WorldScene' });
+  },
+
+  preload: function ()
+  {
+      
+  },
+
+  create: function ()
+  {
+      // create the map
+      var map = this.make.tilemap({ key: 'map' });
+      
+      // first parameter is the name of the tilemap in tiled
+      var tiles = map.addTilesetImage('spritesheet', 'tiles');
+      
+      // creating the layers
+      var grass = map.createStaticLayer('Grass', tiles, 0, 0);
+      var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
+      var trees = map.createStaticLayer('Obstacles', tiles, 0, 0);
+
+      
+      // make all tiles in obstacles collidable
+      obstacles.setCollisionByExclusion([-1]);
+      
+
+
+      // our player sprite created through the phycis system
+      this.player = this.physics.add.sprite(50, 100, 'player', 6);
+      
+      this.physics.world.bounds.width = map.widthInPixels;
+      this.physics.world.bounds.height = map.heightInPixels
+      this.player.setCollideWorldBounds(true) ;
+      this.cursors = this.input.keyboard.createCursorKeys();
+      this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
+      this.cameras.main.startFollow(this.player);
+      this.cameras.main.roundPixels = true;
+      this.anims.create({
+          //animat left, Player
+          key: 'left',
+          frames: this.anims.generateFrameNumbers('player', { frames: [1, 7, 1, 13 ] }),
+          frameRate: 10,
+          repeat: -1,
+      });
+      this.anims.create({
+          //animate right
+          key: 'right',
+          frames: this.anims.generateFrameNumbers('player', { frames: [1, 7, 1, 13 ] }),
+          frameRate: 10,
+          repeat: -1
+      });
+      this.anims.create({
+          //animate up
+          key: 'up',
+          frames: this.anims.generateFrameNumbers('player', { frames: [2, 8, 2, 14 ] }),
+          frameRate: 10,
+          repeat: -1
+      });
+      this.anims.create({
+          //animate up
+          key: 'down',
+          frames: this.anims.generateFrameNumbers('player', { frames: [ 0, 6, 0, 12 ] }),
+          frameRate: 10,
+          repeat: -1
+      });
+      this.physics.add.collider(this.player, obstacles);
+
+  },
+  update: function (time, delta){
+      this.player.body.setVelocity(0);
+      if (this.cursors.left.isDown) {
+        this.player.body.setVelocityX(-80);
+        this.player.flipX=true
+      } else if (this.cursors.right.isDown) {
+        this.player.body.setVelocityX(80);
+        this.player.flipX=false
       }
-    },
-    scene: {
-      preload: preload,
-      create: create,
-      update: update
+
+      if (this.cursors.up.isDown) {
+        this.player.body.setVelocityY (-80);
+      } else if (this.cursors.down.isDown) {
+        this.player.body.setVelocityY(80);
+      }
+  
+    if (this.cursors.left.isDown) {
+      this.player.anims.play('left', true);
+    } else if (this.cursors.right.isDown) {
+      this.player.anims.play('right', true)
+    } else if (this.cursors.up.isDown){
+        this.player.anims.play('up', true);
+    } else if (this.cursors.down.isDown){
+      this.player.anims.play('down', true);
+    } else {
+      this.player.anims.stop();
     }
-  };
-   
-  var game = new Phaser.Game(config); //create the game object
-   
-  //initialise global variables
-  var player;
-  var obstacles;
-  var cursors;
-   
-  var yLimit;
-  var xLimit;
-   
-  function preload () { //this function loads images before the game starts
-    //each image is given a name that is used to refer to it later on
-    this.load.image('floor', 'assets/Farm.jpg');
-    this.load.image('player', 'assets/player.png');
   }
-   
-  function create () { //this function creates sprites at the start of the game
-    let background = this.add.image(0, 0, 'floor').setScale(1);
-    background.x = background.displayWidth / 2;
-    background.y = background.displayHeight / 2;
-    xLimit = background.displayWidth; //the player cannot go beyond these x and
-    yLimit = background.displayHeight; //y positions
-   
-    player = this.physics.add.sprite(300, 300, 'player'); //create the player sprite
-    player.setScale(0.4); //make it appear smaller
-   
-    cursors = this.input.keyboard.createCursorKeys(); //creates an object containing hotkeys
-   
-    this.cameras.main.setBounds(0, 0, xLimit, yLimit);
-   
-    obstacles = this.physics.add.staticGroup(); //create group for obstacles
-    obstacles.create(0, 0, 'obstacle');
-    obstacles.create(0, 0, 'obstacle');
-   
-    this.physics.add.collider(player, obstacles); //collision detection between player and obstacles
-  }
-   
-  function update () { //this function runs every frame
-    if (cursors.left.isDown && player.x >= 0) {
-        player.setVelocityX(-200); //go left
-    }
-    else if (cursors.right.isDown && player.x <= xLimit) {
-        player.setVelocityX(200); //go right
-    }
-    else {
-        player.setVelocityX(0); //don't move left or right
-    }
-   
-    if (cursors.up.isDown && player.y >= 0) {
-        player.setVelocityY(-200); //move up
-    }
-    else if (cursors.down.isDown && player.y <= yLimit) {
-        player.setVelocityY(200); //move down
-    }
-    else {
-        player.setVelocityY(0); //don't move up or down
-    }
-   
-    this.cameras.main.centerOn(player.x, player.y); //centre camera on current position of player
-  }
+});
+
+var config = {
+  type: Phaser.AUTO,
+  parent: 'content',
+  width: 320,
+  height: 240,
+  zoom: 2,
+  pixelArt: true,
+  physics: {
+      default: 'arcade',
+      arcade: {
+          gravity: { y: 0 },
+          debug: false // set to true to view zones
+      }
+  },
+  scene: [
+      BootScene,
+      WorldScene
+  ]
+};
+var game = new Phaser.Game(config);
