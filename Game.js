@@ -25,8 +25,32 @@ var BootScene = new Phaser.Class({
   {
       // start the WorldScene
       this.scene.start('WorldScene');
+
+
+
   }
 });
+
+var Menu = new Phaser.Class({
+Extends: Phaser.Scene,
+
+  initialize:
+
+  function Menu ()
+{
+  Phaser.Scene.call(this, { key: 'Menu' });
+  
+
+},
+preload: function ()
+{
+    
+},
+create: function (){
+    var map = this.make.tilemap({ key: 'map2' });
+
+  }
+},) 
 
 var WorldScene = new Phaser.Class({
 
@@ -55,8 +79,7 @@ var WorldScene = new Phaser.Class({
       // creating the layers
       var grass = map.createStaticLayer('Grass', tiles, 0, 0);
       var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
-      var trees = map.createStaticLayer('Obstacles', tiles, 0, 0);
-
+      
       
       // make all tiles in obstacles collidable
       obstacles.setCollisionByExclusion([-1]);
@@ -64,7 +87,7 @@ var WorldScene = new Phaser.Class({
 
 
       // our player sprite created through the phycis system
-      this.player = this.physics.add.sprite(50, 100, 'player', 6);
+      this.player = this.physics.add.sprite(240, 50, 'player', 6);
       
       this.physics.world.bounds.width = map.widthInPixels;
       this.physics.world.bounds.height = map.heightInPixels
@@ -137,8 +160,8 @@ var WorldScene = new Phaser.Class({
 var config = {
   type: Phaser.AUTO,
   parent: 'content',
-  width: 320,
-  height: 240,
+  width: 420,
+  height: 340,
   zoom: 2,
   pixelArt: true,
   physics: {
@@ -150,6 +173,7 @@ var config = {
   },
   scene: [
       BootScene,
+     // Menu,
       WorldScene
   ]
 };
