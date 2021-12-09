@@ -1,3 +1,4 @@
+var map;
 var BootScene = new Phaser.Class({
 
   Extends: Phaser.Scene,
@@ -17,6 +18,8 @@ var BootScene = new Phaser.Class({
       this.load.tilemapTiledJSON('map', 'assets/tileset.json');
       // our two characters
       this.load.spritesheet('player', 'assets/RPG_assets.png', { frameWidth: 16, frameHeight: 16 });
+      this.load.spritesheet('trader', 'assets/trader.png', { frameWidth: 16, frameHeight: 16 });
+
       
 
   },
@@ -37,7 +40,6 @@ var Menu = new Phaser.Class({
   Phaser.Scene.call(this, { key: 'Menu' });
   },
   preload: function (){
-    this.load.image("farm","assets/Farm.jpg");    
   },
   update: function () {
       if (enter_key.isDown) {
@@ -75,6 +77,16 @@ var WorldScene = new Phaser.Class({
       
   },
 
+  ReplaceTiles: function () {
+
+    //  This will replace every instance of tile 31 (cactus plant) with tile 46 (the sign post).
+    //  It does this across the whole layer of the map unless a region is specified.
+
+    //  You can also pass in x, y, width, height values to control the area in which the replace happens
+
+    map.replace(grass, ground);
+
+  },
   create: function ()
   {
       // create the map
@@ -97,6 +109,8 @@ var WorldScene = new Phaser.Class({
 
       // our player sprite created through the phycis system
       this.player = this.physics.add.sprite(240, 50, 'player', 6);
+      this.trader = this.physics.add.sprite(240, 50, 'trader', 6);
+
       
       this.physics.world.bounds.width = map.widthInPixels;
       this.physics.world.bounds.height = map.heightInPixels
@@ -133,6 +147,14 @@ var WorldScene = new Phaser.Class({
           frameRate: 10,
           repeat: -1
       });
+      this.anims.create({
+        //animate up
+        key: 'up',
+        frames: this.anims.generateFrameNumbers('player', { frames: [0, 5, 0, 11 ] }),
+        frameRate: 10,
+        repeat: -1
+    });
+      
       this.physics.add.collider(this.player, obstacles);
 
   },
@@ -163,7 +185,9 @@ var WorldScene = new Phaser.Class({
     } else {
       this.player.anims.stop();
     }
+
   }
+  
 });
 
 var config = {
