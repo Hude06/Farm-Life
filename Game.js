@@ -10,47 +10,54 @@ var BootScene = new Phaser.Class({
   },
 
   preload: function ()
-  {
+  {  
       // map tiles
       this.load.image('tiles', 'assets/spritesheet.png');
-      
       // map in json format
       this.load.tilemapTiledJSON('map', 'assets/tileset.json');
-      
       // our two characters
       this.load.spritesheet('player', 'assets/RPG_assets.png', { frameWidth: 16, frameHeight: 16 });
-  },
+      
 
+  },
   create: function ()
   {
-      // start the WorldScene
-      this.scene.start('WorldScene');
-
-
-
+      // start the Menu
+      this.scene.start('Menu');
   }
 });
 
 var Menu = new Phaser.Class({
-Extends: Phaser.Scene,
+  Extends: Phaser.Scene,
 
   initialize:
 
   function Menu ()
-{
+  {
   Phaser.Scene.call(this, { key: 'Menu' });
+  },
+  preload: function (){
+    this.load.image("farm","assets/Farm.jpg");    
+  },
+  update: function () {
+      if (enter_key.isDown) {
+        this.scene.start('WorldScene');
+      }
+    },
+
+
+  create: function (){
+    cursors = this.input.keyboard.createCursorKeys()
+    enter_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
+    this.cameras.main.setBackgroundColor('rgba(4, 248, 199, 0.9)');
+    this.add.text(105, 35, 'Farm - World', { fontFamily: 'arial, "Goudy Bookletter 1911", Times, serif' });
+    this.add.text(100, 15, 'CLICK ENTER', { fontFamily: 'arial, "Goudy Bookletter 1911", Times, serif' });
+  },
   
-
-},
-preload: function ()
-{
-    
-},
-create: function (){
-    var map = this.make.tilemap({ key: 'map2' });
-
-  }
-},) 
+}
+)
+  
+  
 
 var WorldScene = new Phaser.Class({
 
@@ -79,6 +86,8 @@ var WorldScene = new Phaser.Class({
       // creating the layers
       var grass = map.createStaticLayer('Grass', tiles, 0, 0);
       var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
+      var grass = map.createStaticLayer('howing grass', tiles, 0, 0);
+
       
       
       // make all tiles in obstacles collidable
@@ -160,8 +169,8 @@ var WorldScene = new Phaser.Class({
 var config = {
   type: Phaser.AUTO,
   parent: 'content',
-  width: 420,
-  height: 340,
+  width: 320,
+  height: 240,
   zoom: 2,
   pixelArt: true,
   physics: {
@@ -173,8 +182,8 @@ var config = {
   },
   scene: [
       BootScene,
-     // Menu,
-      WorldScene
+      Menu,
+      WorldScene,
   ]
 };
 var game = new Phaser.Game(config);
