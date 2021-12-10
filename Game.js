@@ -1,4 +1,6 @@
 var map;
+var score = 0;
+var scoreText;
 var BootScene = new Phaser.Class({
 
   Extends: Phaser.Scene,
@@ -57,8 +59,8 @@ var Menu = new Phaser.Class({
     this.add.text(95, 80, 'FARM - WORLD', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
     this.add.text(100, 100, 'CLICK ENTER', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
     this.add.text(15, 10, 'CONTROLS:', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
-    this.add.text(10, 30, 'Click Enter to Till Ground', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
-    this.add.text(8, 45, 'Arow Keys to move Around', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
+    this.add.text(10, 30, 'Click Enter to Till Ground', { fontFamily: 'Oswald, ' });
+    this.add.text(8, 45, 'Arow Keys to move Around', { fontFamily: 'Oswald, ' });
 
 
 
@@ -100,6 +102,7 @@ var WorldScene = new Phaser.Class({
   },
   create: function ()
   {
+
       // create the map
       var map = this.make.tilemap({ key: 'map' });
       this.map = map
@@ -166,7 +169,10 @@ var WorldScene = new Phaser.Class({
         frameRate: 10,
         repeat: -1
     });
-      
+      scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '10px', fill: '#000' });
+
+
+
       this.physics.add.collider(this.player, obstacles);
       this.enter_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
 
@@ -208,6 +214,13 @@ var WorldScene = new Phaser.Class({
         //this.map.putTileAtWorldXY(this.player.x,this.player.y)
         this.map.putTileAtWorldXY(6,this.player.x,this.player.y,false,this.cameras.main,'Grass')
         console.log(this.map)
+        score += 1;
+        scoreText.setText('Score: ' + score);
+
+
+        //Add the scoreboard in
+        //Scoreboard
+
 
       }
   }
