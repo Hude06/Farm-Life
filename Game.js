@@ -19,6 +19,8 @@ var BootScene = new Phaser.Class({
       // our two characters
       this.load.spritesheet('player', 'assets/RPG_assets.png', { frameWidth: 16, frameHeight: 16 });
       this.load.spritesheet('trader', 'assets/trader.png', { frameWidth: 16, frameHeight: 16 });
+      this.load.image('image2', 'assets/Farm.jpg');
+
 
       
 
@@ -27,6 +29,7 @@ var BootScene = new Phaser.Class({
   {
       // start the Menu
       this.scene.start('Menu');
+
   }
 });
 
@@ -51,9 +54,17 @@ var Menu = new Phaser.Class({
   create: function (){
     cursors = this.input.keyboard.createCursorKeys()
     enter_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
-    this.cameras.main.setBackgroundColor('rgba(4, 248, 199, 0.9)');
-    this.add.text(105, 35, 'Farm - World', { fontFamily: 'arial, "Goudy Bookletter 1911", Times, serif' });
-    this.add.text(100, 15, 'CLICK ENTER', { fontFamily: 'arial, "Goudy Bookletter 1911", Times, serif' });
+    this.add.text(95, 80, 'FARM - WORLD', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
+    this.add.text(100, 100, 'CLICK ENTER', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
+    this.add.text(15, 10, 'CONTROLS:', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
+    this.add.text(10, 30, 'Click Enter to Till Ground', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
+    this.add.text(8, 45, 'Arow Keys to move Around', { fontFamily: 'Oswald, "Goudy Bookletter 1911", Times, serif' });
+
+
+
+    
+
+
   },
   
 }
@@ -91,12 +102,13 @@ var WorldScene = new Phaser.Class({
   {
       // create the map
       var map = this.make.tilemap({ key: 'map' });
+      this.map = map
       
       // first parameter is the name of the tilemap in tiled
       var tiles = map.addTilesetImage('spritesheet', 'tiles');
       
       // creating the layers
-      var grass = map.createStaticLayer('Grass', tiles, 0, 0);
+      this.grass = map.createDynamicLayer('Grass', tiles, 0, 0);
       var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
       var grass = map.createStaticLayer('howing grass', tiles, 0, 0);
 
@@ -156,6 +168,7 @@ var WorldScene = new Phaser.Class({
     });
       
       this.physics.add.collider(this.player, obstacles);
+      this.enter_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
 
   },
   update: function (time, delta){
@@ -186,9 +199,21 @@ var WorldScene = new Phaser.Class({
       this.player.anims.stop();
     }
 
+    if (this.enter_key.isDown) {
+        console.log("enter is down",this.player.x,this.player.y,this.map)
+        let tx = Math.floor(this.player.x/16)
+        let ty = Math.floor(this.player.y/16)
+//        console.log("tile index",tx,ty)
+        console.log(this.map.getTileAtWorldXY(this.player.x,this.player.y))
+        //this.map.putTileAtWorldXY(this.player.x,this.player.y)
+        this.map.putTileAtWorldXY(6,this.player.x,this.player.y,false,this.cameras.main,'Grass')
+        console.log(this.map)
+
+      }
   }
   
 });
+
 
 var config = {
   type: Phaser.AUTO,
@@ -197,6 +222,7 @@ var config = {
   height: 240,
   zoom: 2,
   pixelArt: true,
+  backgroundColor: '#64c987',
   physics: {
       default: 'arcade',
       arcade: {
