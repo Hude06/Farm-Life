@@ -176,6 +176,8 @@ var WorldScene = new Phaser.Class({
       this.physics.add.collider(this.player, obstacles);
       this.enter_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
 
+      this.pressed_enter = false
+
   },
   update: function (time, delta){
       this.player.body.setVelocity(0);
@@ -206,23 +208,27 @@ var WorldScene = new Phaser.Class({
     }
 
     if (this.enter_key.isDown) {
-        console.log("enter is down",this.player.x,this.player.y,this.map)
-        let tx = Math.floor(this.player.x/16)
-        let ty = Math.floor(this.player.y/16)
+      this.pressed_enter = true
+    }
+
+    if (!this.enter_key.isDown && this.pressed_enter == true) {
+      this.pressed_enter = false
+      console.log ("It workes")
+      let tx = Math.floor(this.player.x/16)
+      let ty = Math.floor(this.player.y/16)
 //        console.log("tile index",tx,ty)
-        console.log(this.map.getTileAtWorldXY(this.player.x,this.player.y))
-        //this.map.putTileAtWorldXY(this.player.x,this.player.y)
-        this.map.putTileAtWorldXY(6,this.player.x,this.player.y,false,this.cameras.main,'Grass')
-        console.log(this.map)
-        score += 1;
-        scoreText.setText('Score: ' + score);
+      console.log(this.map.getTileAtWorldXY(this.player.x,this.player.y))
+      //this.map.putTileAtWorldXY(this.player.x,this.player.y)
+      this.map.putTileAtWorldXY(6,this.player.x,this.player.y,false,this.cameras.main,'Grass')
+      console.log(this.map)
+      score += 1;
+      scoreText.setText('Score: ' + score);
 
 
-        //Add the scoreboard in
-        //Scoreboard
+      //Add the scoreboard in
+      //Scoreboard
+    }
 
-
-      }
   }
   
 });
