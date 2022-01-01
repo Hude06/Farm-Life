@@ -233,10 +233,10 @@ var WorldScene = new Phaser.Class({
 
 var config = {
   type: Phaser.AUTO,
-//  parent: 'content',
+  parent: 'content',
   scale: {
        parent: 'content',
-       autoCenter: Phaser.Scale.CENTER_BOTH,
+       //autoCenter: Phaser.Scale.CENTER_BOTH,
        width: 340,
        height: 260,
        zoom: 2,
