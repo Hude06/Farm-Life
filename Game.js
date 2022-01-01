@@ -214,11 +214,16 @@ var WorldScene = new Phaser.Class({
 
     if (!this.enter_key.isDown && this.pressed_enter == true) {
       this.pressed_enter = false
+      console.log ("It workes")
       let tx = Math.floor(this.player.x/16)
       let ty = Math.floor(this.player.y/16)
+//        console.log("tile index",tx,ty)
+      console.log(this.map.getTileAtWorldXY(this.player.x,this.player.y))
+      //this.map.putTileAtWorldXY(this.player.x,this.player.y)
       this.map.putTileAtWorldXY(6,this.player.x,this.player.y,false,this.cameras.main,'Grass')
+      console.log(this.map)
       document.getElementById("Points").innerHTML = Points2;
-      Points2 = + 1
+      Points2 += 1
     }
 
   }
@@ -232,8 +237,8 @@ var config = {
   scale: {
        parent: 'content',
        autoCenter: Phaser.Scale.CENTER_BOTH,
-       width: 320,
-       height: 240,
+       width: 340,
+       height: 260,
        zoom: 2,
    },
   //width: 320,
