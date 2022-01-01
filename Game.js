@@ -1,7 +1,9 @@
 var map;
 var score = 0;
 var scoreText;
+var Points2 = 1;
 var BootScene = new Phaser.Class({
+
 
   Extends: Phaser.Scene,
 
@@ -169,7 +171,6 @@ var WorldScene = new Phaser.Class({
         frameRate: 10,
         repeat: -1
     });
-      scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '10px', fill: '#000' });
 
 
 
@@ -213,20 +214,11 @@ var WorldScene = new Phaser.Class({
 
     if (!this.enter_key.isDown && this.pressed_enter == true) {
       this.pressed_enter = false
-      console.log ("It workes")
       let tx = Math.floor(this.player.x/16)
       let ty = Math.floor(this.player.y/16)
-//        console.log("tile index",tx,ty)
-      console.log(this.map.getTileAtWorldXY(this.player.x,this.player.y))
-      //this.map.putTileAtWorldXY(this.player.x,this.player.y)
       this.map.putTileAtWorldXY(6,this.player.x,this.player.y,false,this.cameras.main,'Grass')
-      console.log(this.map)
-      score += 1;
-      scoreText.setText('Score: ' + score);
-
-
-      //Add the scoreboard in
-      //Scoreboard
+      document.getElementById("Points").innerHTML = Points2;
+      Points2 = + 1
     }
 
   }
@@ -236,10 +228,18 @@ var WorldScene = new Phaser.Class({
 
 var config = {
   type: Phaser.AUTO,
-  parent: 'content',
-  width: 320,
-  height: 240,
-  zoom: 2,
+//  parent: 'content',
+  scale: {
+       parent: 'content',
+       autoCenter: Phaser.Scale.CENTER_BOTH,
+       width: 320,
+       height: 240,
+       zoom: 2,
+   },
+  //width: 320,
+  //height: 240,
+  //zoom:2,
+  //zoom: 1 / window.devicePixelRatio, // Set the zoom to the inverse of the devicePixelRatio
   pixelArt: true,
   backgroundColor: '#64c987',
   physics: {
