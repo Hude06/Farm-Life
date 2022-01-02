@@ -20,6 +20,7 @@ var BootScene = new Phaser.Class({
       this.load.image('tiles', 'assets/spritesheet.png');
       this.load.image('Chest', 'assets/Chest.png');
       this.load.image('Flower', 'assets/Flower.png');
+      this.load.image('Strawberry', 'assets/Strawberry.png')
 
       // map in json format
       this.load.tilemapTiledJSON('map', 'assets/tileset.json');
@@ -95,16 +96,7 @@ var WorldScene = new Phaser.Class({
       
   },
 
-  ReplaceTiles: function () {
 
-    //  This will replace every instance of tile 31 (cactus plant) with tile 46 (the sign post).
-    //  It does this across the whole layer of the map unless a region is specified.
-
-    //  You can also pass in x, y, width, height values to control the area in which the replace happens
-
-    map.replace(grass, ground);
-
-  },
   create: function ()
   {
 
@@ -115,6 +107,7 @@ var WorldScene = new Phaser.Class({
       // first parameter is the name of the tilemap in tiled
       var tiles = map.addTilesetImage('spritesheet', 'tiles');
       var Chest = map.addTilesetImage('Chest', 'Chest');
+      var Flower = map.addTilesetImage('Flower', 'Flower');
       var Flower = map.addTilesetImage('Flower', 'Flower');
 
       // creating the layers
@@ -130,6 +123,8 @@ var WorldScene = new Phaser.Class({
       // make all tiles in obstacles collidable
       obstacles.setCollisionByExclusion([-1]);
       Chest.setCollisionByExclusion([-1]);
+
+
 
       
 
@@ -199,6 +194,7 @@ var WorldScene = new Phaser.Class({
         this.player.body.setVelocityX(80);
         this.player.flipX=false
       }
+
 
       if (this.cursors.up.isDown) {
         this.player.body.setVelocityY (-80);
