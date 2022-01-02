@@ -18,12 +18,14 @@ var BootScene = new Phaser.Class({
   {  
       // map tiles
       this.load.image('tiles', 'assets/spritesheet.png');
+      this.load.image('Chest', 'assets/Chest.png');
+      this.load.image('Flower', 'assets/Flower.png');
+
       // map in json format
       this.load.tilemapTiledJSON('map', 'assets/tileset.json');
       // our two characters
       this.load.spritesheet('player', 'assets/RPG_assets.png', { frameWidth: 16, frameHeight: 16 });
       this.load.spritesheet('trader', 'assets/trader.png', { frameWidth: 16, frameHeight: 16 });
-      this.load.image('image2', 'assets/Farm.jpg');
 
 
       
@@ -89,6 +91,7 @@ var WorldScene = new Phaser.Class({
 
   preload: function ()
   {
+
       
   },
 
@@ -111,22 +114,28 @@ var WorldScene = new Phaser.Class({
       
       // first parameter is the name of the tilemap in tiled
       var tiles = map.addTilesetImage('spritesheet', 'tiles');
-      
+      var Chest = map.addTilesetImage('Chest', 'Chest');
+      var Flower = map.addTilesetImage('Flower', 'Flower');
+
       // creating the layers
       this.grass = map.createDynamicLayer('Grass', tiles, 0, 0);
       var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
-      var grass = map.createStaticLayer('howing grass', tiles, 0, 0);
+      var Chest = map.createDynamicLayer('Chest', Chest, 0, 0);
+      var Flower = map.createDynamicLayer('Flower', Flower, 0, 0);
+
+
 
       
       
       // make all tiles in obstacles collidable
       obstacles.setCollisionByExclusion([-1]);
+      Chest.setCollisionByExclusion([-1]);
+
       
 
 
       // our player sprite created through the phycis system
       this.player = this.physics.add.sprite(240, 50, 'player', 6);
-      this.trader = this.physics.add.sprite(240, 50, 'trader', 6);
 
       
       this.physics.world.bounds.width = map.widthInPixels;
@@ -175,6 +184,7 @@ var WorldScene = new Phaser.Class({
 
 
       this.physics.add.collider(this.player, obstacles);
+      this.physics.add.collider(this.player, Chest);
       this.enter_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
 
       this.pressed_enter = false
