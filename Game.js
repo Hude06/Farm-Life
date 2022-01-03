@@ -109,12 +109,15 @@ var WorldScene = new Phaser.Class({
       var Chest = map.addTilesetImage('Chest', 'Chest');
       var Flower = map.addTilesetImage('Flower', 'Flower');
       var Flower = map.addTilesetImage('Flower', 'Flower');
+      var Strawberry = map.addTilesetImage('Strawberry', 'Strawberry');
 
       // creating the layers
       this.grass = map.createDynamicLayer('Grass', tiles, 0, 0);
       var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
       var Chest = map.createDynamicLayer('Chest', Chest, 0, 0);
       var Flower = map.createDynamicLayer('Flower', Flower, 0, 0);
+      var Strawberry = map.createDynamicLayer('Strawberry', Strawberry, 0 , 0);
+
 
 
 
