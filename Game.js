@@ -22,7 +22,6 @@ var BootScene = new Phaser.Class({
       this.load.image('Flower', 'assets/Flower.png');
       this.load.image('Strawberry', 'assets/Strawberry.png')
       this.load.image('Potato', 'assets/Potato.png')
-      this.load.image('House', 'assets/Bulidings.png')
 
 
 
@@ -288,3 +287,31 @@ var config = {
   ]
 };
 var game = new Phaser.Game(config);
+
+
+const $ = (sel) => document.querySelector(sel)
+const $$ = (sel) => document.querySelectorAll(sel)
+const on = (el,type,cb) => el.addEventListener(type,cb)
+
+
+on($("#hoe-button"),'click',()=>{
+  $$(".square").forEach(div => div.classList.remove('active'))
+  $("#hoe-button").classList.add("active")
+})
+on($("#strawberry-button"),'click',()=>{
+  $$(".square").forEach(div => div.classList.remove('active'))
+  $("#strawberry-button").classList.add("active")
+})
+on($("#potato-button"),'click',()=>{
+  $$(".square").forEach(div => div.classList.remove('active'))
+  $("#potato-button").classList.add("active")
+})
+on($("#blueberry-button"),'click',()=>{
+  $$(".square").forEach(div => div.classList.remove('active'))
+  $("#blueberry-button").classList.add("active")
+})
+
+
+if($("#strawberry-button").classList.contains('active')) {
+  console.log("strawberry is active")
+}

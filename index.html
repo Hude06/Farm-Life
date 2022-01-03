@@ -1,7 +1,6 @@
 <html>
 <head>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.21.0/dist/phaser.js"></script>
-    <script src="Game.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
     <style>
         canvas { 
@@ -15,6 +14,10 @@
       width: 50px;
       border: 4px solid black;
       border-radius: 3px;
+    }
+
+    .square.active {
+        border-color: aqua;
     }
 
 
@@ -61,19 +64,19 @@
     <h1>Points: <span id="Points">0</span></h1>       
     <div class="hbox middle center">
         <div class="vbox">
-            <div class="square vbox center middle">
+            <div class="square vbox center middle" id="hoe-button">
                     <img src="/assets/hoe.png" alt="" width="64" height="64">
             </div>
-            <div class="square">
+            <div class="square" id="strawberry-button">
                 <img src="/assets/Strawberry.png" alt="" width="52" height="52">
 
             </div>
             
-            <div class="square">
+            <div class="square" id="potato-button">
             <img src="/assets/Potato.png" alt="" width="52" height="52">
             </div>
 
-            <div class="square">
+            <div class="square" id="blueberry-button">
                 <img src="/assets/Blueberry.png" alt="" width="52" height="52">
 
             </div>
@@ -83,5 +86,6 @@
     </div>
 </div>
 
+<script src="Game.js"></script>
 </body>
 </html>
