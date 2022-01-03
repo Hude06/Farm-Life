@@ -233,27 +233,29 @@ var WorldScene = new Phaser.Class({
       this.pressed_enter = true
     }
 
+
+    const TILLED = 6
+    const UNTILLED = 1
+    const OTHER_GRASS = 3
+    const STRAWBERRY = 9
+
     if (!this.enter_key.isDown && this.pressed_enter == true) {
       this.pressed_enter = false
-      console.log ("It workes")
-      let tx = Math.floor(this.player.x/16)
-      let ty = Math.floor(this.player.y/16)
-//        console.log("tile index",tx,ty)
-      console.log(this.map.getTileAtWorldXY(this.player.x,this.player.y))
-      //this.map.putTileAtWorldXY(this.player.x,this.player.y)
-      this.map.putTileAtWorldXY(6,this.player.x,this.player.y,false,this.cameras.main,'Grass')
-      console.log((6,this.player.x,this.player.y,false,this.cameras.main,'Grass'))
-      document.getElementById("Points").innerHTML = Points2;
-      Points2 += 1
+      let under = this.map.getTileAtWorldXY(this.player.x,this.player.y,true,this.cameras.main,'Grass')
+      console.log(under)
+      if(under.index === UNTILLED || under.index === OTHER_GRASS) {
+        this.map.putTileAtWorldXY(TILLED,this.player.x,this.player.y,false,this.cameras.main,'Grass')
+        document.getElementById("Points").innerHTML = Points2;
+        Points2 += 1
+      } else if(under.index === TILLED) {
+        this.map.putTileAtWorldXY(STRAWBERRY,this.player.x,this.player.y,false,this.cameras.main,'Strawberry')
+      }
     }
-    if ((6,this.player.x,this.player.y,false,this.cameras.main,'Grass') === 'Grass' + 1) {
-      console.log('Grass is Placed')
-    }
-    
 
   },
   
 });
+
 
 
 var config = {
