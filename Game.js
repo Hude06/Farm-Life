@@ -21,6 +21,10 @@ var BootScene = new Phaser.Class({
       this.load.image('Chest', 'assets/Chest.png');
       this.load.image('Flower', 'assets/Flower.png');
       this.load.image('Strawberry', 'assets/Strawberry.png')
+      this.load.image('Potato', 'assets/Potato.png')
+      this.load.image('House', 'assets/Bulidings.png')
+
+
 
       // map in json format
       this.load.tilemapTiledJSON('map', 'assets/tileset.json');
@@ -110,6 +114,10 @@ var WorldScene = new Phaser.Class({
       var Flower = map.addTilesetImage('Flower', 'Flower');
       var Flower = map.addTilesetImage('Flower', 'Flower');
       var Strawberry = map.addTilesetImage('Strawberry', 'Strawberry');
+      var Potato = map.addTilesetImage('Potato', 'Potato');
+      var House = map.addTilesetImage('House', 'House');
+
+
 
       // creating the layers
       this.grass = map.createDynamicLayer('Grass', tiles, 0, 0);
@@ -117,6 +125,10 @@ var WorldScene = new Phaser.Class({
       var Chest = map.createDynamicLayer('Chest', Chest, 0, 0);
       var Flower = map.createDynamicLayer('Flower', Flower, 0, 0);
       var Strawberry = map.createDynamicLayer('Strawberry', Strawberry, 0 , 0);
+      this.Potato = map.createDynamicLayer('Potato', Potato, 0 , 0);
+      var House = map.createDynamicLayer('House', House, 0 , 0);
+
+
 
 
 
@@ -230,12 +242,16 @@ var WorldScene = new Phaser.Class({
       console.log(this.map.getTileAtWorldXY(this.player.x,this.player.y))
       //this.map.putTileAtWorldXY(this.player.x,this.player.y)
       this.map.putTileAtWorldXY(6,this.player.x,this.player.y,false,this.cameras.main,'Grass')
-      console.log(this.map)
+      console.log((6,this.player.x,this.player.y,false,this.cameras.main,'Grass'))
       document.getElementById("Points").innerHTML = Points2;
       Points2 += 1
     }
+    if ((6,this.player.x,this.player.y,false,this.cameras.main,'Grass') === 'Grass' + 1) {
+      console.log('Grass is Placed')
+    }
+    
 
-  }
+  },
   
 });
 
