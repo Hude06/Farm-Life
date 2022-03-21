@@ -22,6 +22,7 @@ var BootScene = new Phaser.Class({
       this.load.image('Flower', 'assets/Flower.png');
       this.load.image('Strawberry', 'assets/Strawberry.png')
       this.load.image('Potato', 'assets/Potato.png')
+      this.load.image('Bluberry', 'assets/Blueberry.png')
 
 
 
@@ -115,6 +116,8 @@ var WorldScene = new Phaser.Class({
       var Strawberry = map.addTilesetImage('Strawberry', 'Strawberry');
       var Potato = map.addTilesetImage('Potato', 'Potato');
       var House = map.addTilesetImage('House', 'House');
+      var Bluberry = map.addTilesetImage('Blueberry', 'Blueberry');
+
 
 
 
@@ -126,6 +129,8 @@ var WorldScene = new Phaser.Class({
       var Strawberry = map.createDynamicLayer('Strawberry', Strawberry, 0 , 0);
       this.Potato = map.createDynamicLayer('Potato', Potato, 0 , 0);
       var House = map.createDynamicLayer('House', House, 0 , 0);
+      var Bluberry = map.createDynamicLayer('Blueberry', Bluberry, 0 , 0);
+
 
 
 
@@ -237,20 +242,39 @@ var WorldScene = new Phaser.Class({
     const UNTILLED = 1
     const OTHER_GRASS = 3
     const STRAWBERRY = 9
+    const BLUBERRY = 1
+    let under = this.map.getTileAtWorldXY(this.player.x,this.player.y,true,this.cameras.main,'Grass')
+
 
     if (!this.enter_key.isDown && this.pressed_enter == true) {
       this.pressed_enter = false
       let under = this.map.getTileAtWorldXY(this.player.x,this.player.y,true,this.cameras.main,'Grass')
-      console.log(under)
       if(under.index === UNTILLED || under.index === OTHER_GRASS) {
         this.map.putTileAtWorldXY(TILLED,this.player.x,this.player.y,false,this.cameras.main,'Grass')
         document.getElementById("Points").innerHTML = Points2;
         Points2 += 1
       } else if(under.index === TILLED) {
-        this.map.putTileAtWorldXY(STRAWBERRY,this.player.x,this.player.y,false,this.cameras.main,'Strawberry')
+       // this.map.putTileAtWorldXY(STRAWBERRY,this.player.x,this.player.y,false,this.cameras.main,'Strawberry')
       }
-    }
 
+    }
+    //console.log(under)
+
+    if($("#strawberry-button").classList.contains('active') && under.index === TILLED)
+    {
+      this.map.putTileAtWorldXY(STRAWBERRY,this.player.x,this.player.y,false,this.cameras.main,'Strawberry')
+    }
+    if($("#blueberry-button").classList.contains('active')) {
+      this.map.putTileAtWorldXY(BLUBERRY,this.player.x,this.player.y,false,this.cameras.main,'Bluberry')
+    }
+    if($("#potato-button").classList.contains('active')) {
+      this.map.putTileAtWorldXY(Potato,this.player.x,this.player.y,false,this.cameras.main,'Potato')
+      console.log("potato is active")
+    }
+    if($("#hoe-button").classList.contains('active')) {
+      
+    }
+    
   },
   
 });
@@ -312,6 +336,4 @@ on($("#blueberry-button"),'click',()=>{
 })
 
 
-if($("#strawberry-button").classList.contains('active')) {
-  console.log("strawberry is active")
-}
+

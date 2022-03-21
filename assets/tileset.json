@@ -106,7 +106,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":18,
+ "nextlayerid":20,
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"left-up",
@@ -187,7 +187,20 @@
          "margin":0,
          "name":"Building",
          "spacing":0,
-         "tilecount":250,
+         "tilecount":0,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":1,
+         "firstgid":11,
+         "image":"Blueberry.png",
+         "imageheight":17,
+         "imagewidth":17,
+         "margin":0,
+         "name":"Blueberry",
+         "spacing":0,
+         "tilecount":961,
          "tileheight":16,
          "tilewidth":16
         }],
